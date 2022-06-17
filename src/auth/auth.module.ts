@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common'
+import { Module, Global } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { AuthService } from './auth.service'
 import { JwtStrategy } from './jwt.strategy'
-import { JwtService } from '@nestjs/jwt'
 import jwtConfig from 'src/config/jwt.config'
 
+@Global()
 @Module({
   imports: [
     JwtModule.register({
@@ -12,7 +12,7 @@ import jwtConfig from 'src/config/jwt.config'
       signOptions: { expiresIn: jwtConfig.expiresIn }
     })
   ],
-  providers: [AuthService, JwtStrategy, JwtService],
+  providers: [AuthService, JwtStrategy],
   exports: [AuthService]
 })
 export class AuthModule {}
