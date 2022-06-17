@@ -22,7 +22,10 @@ export class TransformInterceptor implements NestInterceptor {
           user: req.user,
           request: req.body
         })
-        if (serverConfig.logger && serverConfig.logger.includes('info')) {
+        if (
+          Array.isArray(serverConfig.logger) &&
+          serverConfig.logger.includes('info')
+        ) {
           Logger.info(logFormat)
           Logger.access(logFormat)
         }

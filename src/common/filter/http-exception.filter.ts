@@ -22,7 +22,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
       code: status,
       exception: exception.toString()
     })
-    if (serverConfig.logger && serverConfig.logger.includes('error')) {
+    if (
+      Array.isArray(serverConfig.logger) &&
+      serverConfig.logger.includes('error')
+    ) {
       Logger.error(logFormat)
     }
     response.status(status).json({
