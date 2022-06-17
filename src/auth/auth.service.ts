@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { AuthLoginOption } from './auth.interface'
-import jwtConfig from 'src/config/jwt.config'
 
 @Injectable()
 export class AuthService {
@@ -11,9 +10,6 @@ export class AuthService {
       userid: user.userId,
       username: user.name
     }
-    return this.jwtService.sign(payload, {
-      secret: jwtConfig.secret,
-      expiresIn: jwtConfig.expiresIn
-    })
+    return this.jwtService.sign(payload)
   }
 }

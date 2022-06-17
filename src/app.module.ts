@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { APP_GUARD } from '@nestjs/core'
-import { JwtService } from '@nestjs/jwt'
 
 import { JwtAuthGuard } from './common/guards/auth.guard'
 import { WxModule } from './wx/wx.module'
@@ -19,7 +18,6 @@ import databaseConfig from './config/database.config'
     UserModule
   ],
   providers: [
-    JwtService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard
