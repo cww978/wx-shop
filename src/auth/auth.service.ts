@@ -11,11 +11,9 @@ export class AuthService {
       userid: user.userId,
       username: user.name
     }
-    return {
-      access_token: this.jwtService.sign(payload, {
-        secret: jwtConfig.secret,
-        expiresIn: jwtConfig.expiresIn
-      })
-    }
+    return this.jwtService.sign(payload, {
+      secret: jwtConfig.secret,
+      expiresIn: jwtConfig.expiresIn
+    })
   }
 }
