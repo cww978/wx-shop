@@ -1,10 +1,11 @@
 import { Controller, Get, Query, Request } from '@nestjs/common'
 import { WxService } from './wx.service'
+import { AuthService } from 'src/auth/auth.service'
 import { Public } from 'src/common/decorator/public.decorator'
 
 @Controller('wx')
 export class WxController {
-  constructor(private wxService: WxService) {}
+  constructor(private wxService: WxService, private authService: AuthService) {}
 
   @Public()
   @Get('/login')
@@ -15,6 +16,16 @@ export class WxController {
       data,
       message: 'success'
     }
+  }
+
+  @Public()
+  @Get('/get_token')
+  async getToken(): Promise<any> {
+    const token = await this.authService.login({
+      userId: 'ofhN951RnXIxqx_if3m7pjeEjuSk',
+      name: 'Caowenw'
+    })
+    return token
   }
 
   @Get('/signature')

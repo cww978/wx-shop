@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { Logger } from '../utils/log4js'
+import serverConfig from 'src/config/server.config'
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -21,7 +22,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       code: status,
       exception: exception.toString()
     })
-    Logger.error(logFormat)
+    if (serverConfig.logger && serverConfig.logger.includes('error')) {
+      Logger.error(logFormat)
+    }
     response.status(status).json({
       statusCode: status,
       error: exception.message,

@@ -6,6 +6,7 @@ export function LoggerMiddleware(
   res: Response,
   next: () => void
 ) {
+  next()
   const code = res.statusCode
   const logFormat = JSON.stringify({
     method: req.method,
@@ -17,8 +18,5 @@ export function LoggerMiddleware(
     Logger.error(logFormat)
   } else if (code >= 400) {
     Logger.warn(logFormat)
-  } else {
-    Logger.access(logFormat)
   }
-  next()
 }

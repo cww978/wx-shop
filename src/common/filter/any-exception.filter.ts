@@ -6,6 +6,7 @@ import {
   HttpStatus
 } from '@nestjs/common'
 import { Logger } from '../utils/log4js'
+import serverConfig from 'src/config/server.config'
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -25,7 +26,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
       code: status,
       exception: exception.toString()
     })
-    Logger.error(logFormat)
+    if (serverConfig.logger && serverConfig.logger.includes('error')) {
+      Logger.error(logFormat)
+    }
     response.status(status).json({
       statusCode: status,
       msg: `Service Error: ${exception}`

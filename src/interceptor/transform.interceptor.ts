@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { Logger } from 'src/common/utils/log4js'
+import serverConfig from 'src/config/server.config'
 
 @Injectable()
 export class TransformInterceptor implements NestInterceptor {
@@ -17,11 +18,14 @@ export class TransformInterceptor implements NestInterceptor {
         const logFormat = JSON.stringify({
           originalUrl: req.originalUrl,
           method: req.method,
+          ip: req.ip,
           user: req.user,
-          data: req.body
+          request: req.body
         })
-        Logger.info(logFormat)
-        Logger.access(logFormat)
+        if (serverConfig.logger && serverConfig.logger.includes('info')) {
+          Logger.info(logFormat)
+          Logger.access(logFormat)
+        }
         return data
       })
     )
