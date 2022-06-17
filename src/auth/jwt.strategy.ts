@@ -6,7 +6,6 @@ import jwtConfig from 'src/config/jwt.config'
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
-    console.log('secretOrKey: ', jwtConfig.secret)
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
