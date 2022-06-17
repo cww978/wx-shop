@@ -8,7 +8,7 @@ import jwtConfig from 'src/config/jwt.config'
   imports: [
     JwtModule.register({
       secret: jwtConfig.secret,
-      signOptions: { expiresIn: '60s' }
+      signOptions: { expiresIn: jwtConfig.expiresIn }
     })
   ],
   providers: [AuthService, JwtStrategy],

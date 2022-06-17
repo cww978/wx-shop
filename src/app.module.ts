@@ -13,9 +13,9 @@ import databaseConfig from './config/database.config'
 @Module({
   imports: [
     CacheModule,
+    AuthModule,
     TypeOrmModule.forRoot(databaseConfig),
     WxModule,
-    AuthModule,
     UserModule
   ],
   providers: [
