@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import axios from 'axios'
 import stringRandom = require('string-random')
-import { CacheService } from '../cache/cache.service'
+import { RecheService } from '../reche/reche.service'
 import { AuthService } from '../auth/auth.service'
 import wxConfig from 'src/config/wx.config'
 import { WxAccessTokenRes, WxUserInfoRes, WxConfigRes } from './wx.interface'
@@ -14,7 +14,7 @@ import { sha1, copyValueToParams, getExpiresTime } from '../utils/index'
 @Injectable()
 export class WxService {
   constructor(
-    private cacheService: CacheService,
+    private racheService: RecheService,
 
     private authService: AuthService,
 
@@ -63,7 +63,7 @@ export class WxService {
 
   async getJsTicket(openid: string) {
     const key = 'jsticket-' + openid
-    const ticket = await this.cacheService.get(key)
+    const ticket = await this.racheService.get(key)
     if (ticket) {
       return ticket
     } else {
@@ -72,7 +72,7 @@ export class WxService {
         `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`
       )
       if (data.errcode === 0) {
-        this.cacheService.set(key, data.ticket, data.expires_in)
+        this.racheService.set(key, data.ticket, data.expires_in)
         return data.ticket
       } else {
         return null
@@ -83,7 +83,7 @@ export class WxService {
   async getGlobalAccessToken() {
     const key = 'global-access-token'
     const { appid, appsecret } = wxConfig
-    const token = await this.cacheService.get(key)
+    const token = await this.racheService.get(key)
     if (token) {
       return token
     } else {
@@ -91,7 +91,7 @@ export class WxService {
         `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${appsecret}`
       )
       if (Object.hasOwnProperty.call(data, 'access_token')) {
-        this.cacheService.set(key, data.access_token, data.expires_in)
+        this.racheService.set(key, data.access_token, data.expires_in)
         return data.access_token
       } else {
         return null

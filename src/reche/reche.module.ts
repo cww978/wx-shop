@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common'
 import { RedisModule } from '@liaoliaots/nestjs-redis'
-import { CacheService } from './cache.service'
+import { RecheService } from './reche.service'
 import redisConfig from 'src/config/redis.config'
 
 @Global()
@@ -10,7 +10,7 @@ import redisConfig from 'src/config/redis.config'
       config: redisConfig
     })
   ],
-  providers: [CacheService],
-  exports: [CacheService]
+  providers: [RecheService],
+  exports: [RecheService]
 })
-export class CacheModule {}
+export class RecheModule {}

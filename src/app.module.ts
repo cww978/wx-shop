@@ -6,12 +6,14 @@ import { JwtAuthGuard } from './common/guards/auth.guard'
 import { WxModule } from './wx/wx.module'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
-import { CacheModule } from './cache/cache.module'
+import { CachingModule } from './caching/caching.module'
+import { RecheModule } from './reche/reche.module'
 import databaseConfig from './config/database.config'
 
 @Module({
   imports: [
-    CacheModule,
+    RecheModule,
+    CachingModule,
     AuthModule,
     TypeOrmModule.forRoot(databaseConfig),
     WxModule,

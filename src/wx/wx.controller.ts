@@ -1,4 +1,13 @@
-import { Controller, Get, Query, Request } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Query,
+  Request,
+  UseInterceptors,
+  CacheInterceptor,
+  CacheKey,
+  CacheTTL
+} from '@nestjs/common'
 import { WxService } from './wx.service'
 import { AuthService } from 'src/auth/auth.service'
 import { Public } from 'src/common/decorator/public.decorator'
@@ -20,11 +29,11 @@ export class WxController {
 
   @Public()
   @Get('/get_token')
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('api-cache-demo')
+  @CacheTTL(30)
   async getToken(): Promise<any> {
-    const token = await this.authService.login({
-      userId: 'ofhN951RnXIxqx_if3m7pjeEjuSk',
-      name: 'Caowenw'
-    })
+    const token = Date.now().valueOf()
     return token
   }
 
